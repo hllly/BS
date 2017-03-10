@@ -1,0 +1,26 @@
+syntax = "proto3";
+option java_outer_classname = "service.ser.protoc.BaseRPCProtocol";     //使用该类构建RPC请求和响应消息格式
+message RPCMessage{
+    int messageType=1;   //消息类型，1表示请求消息，2表示响应消息，3表示异常，4表示其他
+    string serviceName=2;   //服务名
+    string class=3;     //服务实现类名
+
+    message request{
+        string requestID=1;    //请求者ID
+        string url=2;   //服务URL即服务访问路径，格式为ip+port+serviceName
+        string routeFT=3;   //路由容错方式，候选值为FailOver,FailBack,FailCache,FailFast,DynamicDefine;
+        repeated Method requestMethodList=4;   //请求方法列表
+    }
+    message response{
+        string responseID=1;    //响应者ID
+        int responseCode=2;     //响应码，0表示正常，其余表示详细错误码
+        map<string,bytes> returnValueList=3;    //返回值列表，string为方法名，bytes为返回值
+    }
+
+    message Method{     //请求方法描述格式
+        string methodName=1;    //方法名
+        repeated string parameterTypeName=2;    //参数类型名列表
+        repeated bytes  parameters=3;   //请求方法具体参数
+        bytes returnValue=4;    //返回值类型
+    }
+    }

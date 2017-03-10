@@ -1,0 +1,35 @@
+syntax = "proto3";
+option java_outer_classname = "BaseProtocol";
+message BaseMessage{
+    map<string, string> protocolName=1;                                                       //基础协议名+扩展协议名，当map的记录条数大于1时表示有扩展协议
+    string reqOrRespID=2;                                                                                  //格式为SourceID@GoalID，ID=host:port;
+    Header header=3;
+    Body body=4;
+    message Header{                                                                                           //消息头定义
+        int32 crcCode=1;                                                                                        //协议栈校验码+主版本号+次版本号
+        int32 length=2;                                                                                           //全消息长度
+        int32 type=3;                                                                                               //消息类型
+        int32 priority=4;                                                                                          //消息优先级
+        repeated string interfaceName=5;                                                            //接口名
+        repeated string methodName=6;                                                              //方法名
+        map<string,ScalaProtocolHeader> scalaProtocolHeader=7;                  //扩展消息头
+        message ScalaProtocolHeader{                                                                 //扩展消息协议头
+            bytes scalaProtocolHeader=1;                                                               //扩展协议头内容
+        }
+    }
+    message Body{                                                                                                //消息体定义
+        Request request=1;                                                                                    //请求消息
+        Response response=2;                                                                               //响应消息
+        map<string,ScalaProtocolBody> scalaProtocolBody=3;                         //其中key为扩展协议名称，必须与header扩展协议的map key相同
+        message Request{                                                                                      //请求消息
+            repeated string methodParametersType=1;                                         //请求方法参数类型
+            repeated bytes methodParameters=2;                                                 //请求方法参数：每个参数为一个bytes
+        }
+        message Response{                                                                                   //响应消息
+            repeated bytes responseMessage=1;                                                  //响应消息：每个返回result为一个bytes
+        }
+        message ScalaProtocolBody{                                                                    //扩展消息体
+            bytes scalaProtocolBody=1;                                                                  //扩展消息体内容
+        }
+   }
+}

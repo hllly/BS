@@ -1,0 +1,17 @@
+syntax = "proto3";
+option java_outer_classname = "service.ser.protoc.BaseServiceProtocol";     //使用该类构建服务信息协议格式
+message Service{
+    string id=1;    //服务唯一标识ID
+    string serviceName=2;   //服务名
+    repeated string serviceInterfaceList=3;  //服务实现类接口列表
+    string class=4;     //服务实现类名
+    string url=5;   //服务URL即服务访问路径，格式为ip+port+serviceName
+    string routeFT=6;   //路由容错方式，候选值为FailOver,FailBack,FailCache,FailFast,DynamicDefine;
+    repeated Method methodList=7;   //服务方法列表
+
+    message Method{     //服务方法描述格式
+        string methodName=1;    //方法名
+        repeated string parameterTypeName=2;    //参数类型名列表
+        bytes returnValue=3;    //返回值类型
+    }
+    }

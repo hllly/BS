@@ -1,0 +1,7 @@
+1.  当channel结束时，在channelInactive()里清除sm
+2.  如何获取本地和远程固定IP和port，如何固定客户端port
+3.  解决Handler @Sharable问题
+4.  将NOreceivedPongTimes加上去(已解决)
+5.  缓存连接，根据源ID+目的ID标识连接并存储在concurrentHashMap
+6.  实现长连接，服务端缓存客户端Channel到concurrentHashMap
+7.  当服务端或客户端强制关闭连接后捕捉信息并释放资源
