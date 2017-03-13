@@ -1,0 +1,8 @@
+syntax = "proto3";
+option java_outer_classname = "ServiceMessage";
+message Message{
+    string id=1;
+    string class=2;
+    string url=3;
+    }
+
